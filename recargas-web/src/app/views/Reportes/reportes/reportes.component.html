@@ -1,0 +1,105 @@
+<div class="card">
+  <h2>Reportes</h2>
+
+  <!-- Filtros -->
+  <section class="filters">
+    <div>
+      <label>Desde</label>
+      <input type="date" [(ngModel)]="from" class="control">
+    </div>
+    <div>
+      <label>Hasta</label>
+      <input type="date" [(ngModel)]="to" class="control">
+    </div>
+    <div>
+      <label>Vendedor (opcional)</label>
+      <select [(ngModel)]="vendedorId" class="control">
+        <option [ngValue]="undefined">-- Todos --</option>
+        <option *ngFor="let v of vendedores" [ngValue]="v.id">
+          {{ v.nombre }} {{ v.apellido }}
+        </option>
+      </select>
+    </div>
+  </section>
+
+
+  <!-- Acciones -->
+  <div class="actions">
+    <button (click)="cargarOperador()" [disabled]="loadingOp">Resumen por operador</button>
+    <button (click)="cargarVendedor()" [disabled]="loadingVen">Resumen por vendedor</button>
+  </div>
+
+  <!-- Por Operador -->
+  <section class="panel">
+    <header>
+      <h3>Por Operador</h3>
+      <div>
+        <button (click)="exportCsvOperador()" [disabled]="!porOperador.length">Exportar CSV</button>
+      </div>
+    </header>
+
+    <p class="err" *ngIf="errOp">{{ errOp }}</p>
+    <p *ngIf="loadingOp">Cargando…</p>
+
+    <table *ngIf="!loadingOp && porOperador.length">
+      <thead>
+        <tr>
+          <th>Operador</th>
+          <th class="num">Cantidad</th>
+          <th class="num">Valor Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of porOperador">
+          <td>{{ r.operador }}</td>
+          <td class="num">{{ r.cantidad }}</td>
+          <td class="num">{{ r.valorTotal | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total</th>
+          <th class="num">{{ totalCantidadOp() }}</th>
+          <th class="num">{{ totalValorOp() | currency:'COP':'symbol-narrow':'1.0-0' }}</th>
+        </tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <!-- Por Vendedor -->
+  <section class="panel">
+    <header>
+      <h3>Por Vendedor</h3>
+      <div>
+        <button (click)="exportCsvVendedor()" [disabled]="!porVendedor.length">Exportar CSV</button>
+      </div>
+    </header>
+
+    <p class="err" *ngIf="errVen">{{ errVen }}</p>
+    <p *ngIf="loadingVen">Cargando…</p>
+
+    <table *ngIf="!loadingVen && porVendedor.length">
+      <thead>
+        <tr>
+          <th>Vendedor</th>
+          <th class="num">Cantidad</th>
+          <th class="num">Valor Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of porVendedor">
+          <td>{{ r.vendedor }}</td>
+          <td class="num">{{ r.cantidad }}</td>
+          <td class="num">{{ r.valorTotal | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total</th>
+          <th class="num">{{ totalCantidadVen() }}</th>
+          <th class="num">{{ totalValorVen() | currency:'COP':'symbol-narrow':'1.0-0' }}</th>
+        </tr>
+      </tfoot>
+    </table>
+  </section>
+</div>

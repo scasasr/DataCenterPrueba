@@ -1,0 +1,8 @@
+.card { border:1px solid #e5e7eb; padding:1rem; border-radius:.5rem; }
+.grid { display:grid; gap:1rem; grid-template-columns: repeat(2, minmax(0,1fr)); }
+label { display:block; font-weight:600; margin-bottom:.25rem; }
+input, select { width:95%; padding:.5rem; }
+.actions { grid-column: 1 / -1; margin-top:.5rem; }
+.ok { color:#16a34a; }
+.err { color:#dc2626; }
+@media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }

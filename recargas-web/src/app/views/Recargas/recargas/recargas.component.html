@@ -1,0 +1,55 @@
+<div class="card">
+  <h2>Registrar recarga</h2>
+
+  <form class="grid" [formGroup]="form" (ngSubmit)="registrar()">
+    <div>
+      <label>Operador</label>
+      <select formControlName="operadorId">
+        <option [ngValue]="null">-- Seleccione --</option>
+        <option *ngFor="let o of operadores" [ngValue]="o.id">{{ o.nombre }}</option>
+      </select>
+      <small class="err" *ngIf="form.get('operadorId')?.touched && form.get('operadorId')?.invalid">
+        Requerido.
+      </small>
+    </div>
+
+    <div>
+      <label>Vendedor</label>
+      <select formControlName="vendedorId">
+        <option [ngValue]="null">-- Seleccione --</option>
+        <option *ngFor="let v of vendedores" [ngValue]="v.id">{{ v.nombre }} {{ v.apellido }}</option>
+      </select>
+      <small class="err" *ngIf="form.get('vendedorId')?.touched && form.get('vendedorId')?.invalid">
+        Requerido.
+      </small>
+    </div>
+
+   <div>
+        <label>Número destino</label>
+        <input type="text" formControlName="numeroDestino" placeholder="3001234567">
+        <small class="err" *ngIf="form.get('numeroDestino')?.touched && form.get('numeroDestino')?.errors?.['required']">
+            Requerido.
+        </small>
+        <small class="err" *ngIf="form.get('numeroDestino')?.errors?.['pattern']">
+            El número debe empezar por 3 y tener 10 dígitos.
+        </small>
+    </div>
+    <div>
+      <label>Monto</label>
+      <input type="number" formControlName="monto" placeholder="5000" min="1000" step="1">
+      <small class="err" *ngIf="form.get('monto')?.touched && form.get('monto')?.errors?.['required']">
+        Requerido.
+      </small>
+      <small class="err" *ngIf="form.get('monto')?.errors?.['min']">
+        Mínimo 1000.
+      </small>
+    </div>
+
+    <div class="actions">
+      <button type="submit">Registrar</button>
+    </div>
+  </form>
+
+  <p class="ok" *ngIf="msg">{{ msg }}</p>
+  <p class="err" *ngIf="err">{{ err }}</p>
+</div>
